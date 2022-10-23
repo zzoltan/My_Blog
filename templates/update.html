@@ -1,0 +1,69 @@
+{%extends 'base.html' %}
+
+
+
+{%block content%}
+
+{% for message in get_flashed_messages() %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+   {{message}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+
+
+
+{%endfor%}
+
+        {%if name_to_update.id == current_user.id%}
+
+
+        <h1>User to be updated: {{name_to_update.name}}:</h1>
+        <br /><br />
+
+       <div class="shadow p-3 mb-5 bg-body rounded">
+        <form action = "/update/{{name_to_update.id}}" method="POST">
+            {{form.hidden_tag()}}
+            {{form.name.label(class="form-label")}}
+            {{form.name(class="form-control", value=name_to_update.name)}}
+            <br />
+            {{form.username.label(class="form-label")}}
+            {{form.username(class="form-control", value=name_to_update.username)}}
+            <br />
+            {{form.email.label(class="form-label")}}
+            {{form.email(class="form-control", value=name_to_update.email)}}
+            <br/>
+            {{form.about_author.label(class="form-label")}}
+<!--            {{form.about_author(class="form-control")}}-->
+            <textarea name="about_author" class="form-control">{{name_to_update.about_author}}</textarea>
+
+            <br/>
+<!--            {{form.password_hash.label(class="form-label")}}-->
+<!--            {{form.password_hash(class="form-control")}}-->
+<!--            <br/>-->
+<!--            {{form.password_hash2.label(class="form-label")}}-->
+<!--            {{form.password_hash2(class="form-control")}}-->
+<!--            <br/>-->
+
+            {{form.submit(class="btn btn-secondary")}}
+            <a href="{{url_for('delete_user', id=name_to_update.id)}}" class="btn btn-danger">Delete</a>
+        </form>
+       </div>
+{%else%}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Sorry! You cannot update other user!!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <h2>Access Denied!!</h2>
+        <p>Sorry, you can only update your profile!</p>
+        <a href="{{url_for('login')}}" class="btn btn-secondary btn-sm">Login</a>
+    </div>
+
+{%endif%}
+
+
+
+
+
+
+
+{%endblock%}
